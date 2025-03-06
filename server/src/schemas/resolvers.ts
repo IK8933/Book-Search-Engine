@@ -65,17 +65,23 @@ const resolvers = {
       return { token, user };
     },
 
-    saveBook: async (_parent: any, { userId, bookId }: SaveBookArgs) => {
+    saveBook: async (_parent: any, { bookId }: SaveBookArgs, context: any) => {
+      if (!context.user) {
+        throw new AuthenticationError('You need to be logged in to save a book.');
+      }
       return User.findByIdAndUpdate(
-        userId,
+        context.user._id,
         { $addToSet: { savedBooks: bookId } },
         { new: true }
       ).populate('savedBooks');
     },
 
-    removeBook: async (_parent: any, { userId, bookId }: SaveBookArgs) => {
+    removeBook: async (_parent: any, { bookId }: SaveBookArgs, context: any) => {
+      if (!context.user) {
+        throw new AuthenticationError('You need to be logged in to remove a book.');
+      }
       return User.findByIdAndUpdate(
-        userId,
+        context.user._id, 
         { $pull: { savedBooks: bookId } },
         { new: true }
       ).populate('savedBooks');
