@@ -1,24 +1,23 @@
-import {gql} from "graphql-tag"
+import { gql } from "graphql-tag";
 
 const typeDefs = gql`
   type User {
     _id: ID!
     username: String!
     email: String!
-    password: String!
-    savedBooks: [Book]
+    savedBooks: [Book]  # ✅ Stores full book objects
     bookCount: Int
   }
 
   type Book {
-  bookId: String!  
-  title: String!
-  authors: [String]
-  description: String!
-  image: String
-  link: String
+    bookId: String!  
+    title: String!
+    authors: [String]
+    description: String!
+    image: String
+    link: String
   }
-  
+
   type Auth {
     token: ID!
     user: User
@@ -31,17 +30,30 @@ const typeDefs = gql`
     getBook(bookId: String!): Book
   }
 
-    input UserInput {
+  input UserInput {
     username: String!
     email: String!
     password: String!
   }
 
+  # ✅ Added BookInput to store full book details
+  input BookInput {
+    bookId: String!  
+    title: String!
+    authors: [String]
+    description: String!
+    image: String
+    link: String
+  }
+
   type Mutation {
     addUser(input: UserInput!): Auth
     login(email: String!, password: String!): Auth
-    saveBook(bookId: ID!): User
-    removeBook(bookId: ID!): User
+
+    # ✅ Updated saveBook to accept full book object
+    saveBook(book: BookInput!): User
+
+    removeBook(bookId: String!): User
   }
 `;
 
