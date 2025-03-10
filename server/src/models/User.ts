@@ -58,7 +58,7 @@ userSchema.methods.isCorrectPassword = async function (password: string) {
   return match;
 };
 
-// ✅ Virtual field for book count
+// Virtual field for book count
 userSchema.virtual('bookCount').get(function () {
   return this.savedBooks.length;
 });

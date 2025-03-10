@@ -5,7 +5,7 @@ const typeDefs = gql`
     _id: ID!
     username: String!
     email: String!
-    savedBooks: [Book]  # ✅ Stores full book objects
+    savedBooks: [Book]  # Stores full book objects
     bookCount: Int
   }
 
@@ -36,7 +36,7 @@ const typeDefs = gql`
     password: String!
   }
 
-  # ✅ Added BookInput to store full book details
+  # BookInput to store full book details
   input BookInput {
     bookId: String!  
     title: String!
@@ -50,7 +50,7 @@ const typeDefs = gql`
     addUser(input: UserInput!): Auth
     login(email: String!, password: String!): Auth
 
-    # ✅ Updated saveBook to accept full book object
+    # saveBook to accept full book object
     saveBook(book: BookInput!): User
 
     removeBook(bookId: String!): User
