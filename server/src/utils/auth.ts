@@ -9,21 +9,45 @@ export const authenticateToken = ({ req }: any) => {
   let token = req.body.token || req.query.token || req.headers.authorization;
 
   if (req.headers.authorization) {
-    token = token.split(' ').pop().trim();
+    token = token.split(" ").pop()?.trim();
   }
 
+  console.log("🔎 Extracted Token:", token);
+
   if (!token) {
-    return { user: null };  // ✅ Ensure context.user is always set
+    console.log("❌ No token found in request.");
+    return { user: null };  
   }
 
   try {
-    const { data }: any = jwt.verify(token, SECRET_KEY, { maxAge: '2h' });
-    return { user: data };  // ✅ Now returning the user object correctly
+    const { data }: any = jwt.verify(token, SECRET_KEY, { maxAge: "2h" });
+    console.log("✅ Token successfully verified. Decoded Data:", data);
+    return { user: data };
   } catch (err) {
-    console.log('❌ Invalid token');
-    return { user: null };  // ✅ Ensure app doesn't crash if token is invalid
+    console.log("❌ Invalid token:", (err as Error).message);  // ✅ TypeScript-safe error handling
+    return { user: null };
   }
 };
+
+// export const authenticateToken = ({ req }: any) => {
+//   let token = req.body.token || req.query.token || req.headers.authorization;
+
+//   if (req.headers.authorization) {
+//     token = token.split(' ').pop().trim();
+//   }
+
+//   if (!token) {
+//     return { user: null };  // ✅ Ensure context.user is always set
+//   }
+
+//   try {
+//     const { data }: any = jwt.verify(token, SECRET_KEY, { maxAge: '2h' });
+//     return { user: data };  // ✅ Now returning the user object correctly
+//   } catch (err) {
+//     console.log('❌ Invalid token');
+//     return { user: null };  // ✅ Ensure app doesn't crash if token is invalid
+//   }
+// };
 
 export const signToken = (username: string, email: string, _id: unknown) => {
   const payload = { username, email, _id };

@@ -24,7 +24,6 @@ export const bookSchema = new Schema<BookDocument>({
   bookId: {
     type: String,
     required: true,
-    unique: true,
   },
   image: {
     type: String,

@@ -47,14 +47,19 @@ const resolvers = {
 
   Mutation: {
     addUser: async (_parent: any, { input }: AddUserArgs) => {
-      const hashedPassword = await bcrypt.hash(input.password, 10);
-      const user = await User.create({
-        ...input,
-        password: hashedPassword,
-      });
-
-      const token = signToken(user.username, user.email, user._id);
-      return { token, user };
+      try {
+        const hashedPassword = await bcrypt.hash(input.password, 10);
+        const user = await User.create({
+          ...input,
+          password: hashedPassword,
+        });
+    
+        const token = signToken(user.username, user.email, user._id.toString());
+        return { token, user };
+      } catch (error) {
+        console.error("Error creating user:", error);
+        throw new Error("Failed to create user.");
+      }
     },
 
     login: async (_parent: any, { email, password }: LoginUserArgs, context: any) => {

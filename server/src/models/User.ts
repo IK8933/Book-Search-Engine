@@ -37,15 +37,32 @@ const userSchema = new Schema<UserDocument>(
 );
 
 // ✅ Hash user password before saving (Prevents double hashing)
-userSchema.pre('save', async function (next) {
-  if (this.isModified('password')) {  // ✅ Ensures password is only hashed when modified
-    console.log("🔒 Hashing new password before saving...");
-    const saltRounds = 10;
-    this.password = await bcrypt.hash(this.password, saltRounds);
-    console.log("✅ Hashed password stored:", this.password);
+userSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    console.log("🔒 Checking if password is already hashed...");
+
+    // ✅ Prevent double hashing: If the password is already hashed, do not hash again
+    if (!this.password.startsWith("$2b$")) {  
+      console.log("🔒 Hashing new password before saving...");
+      const saltRounds = 10;
+      this.password = await bcrypt.hash(this.password, saltRounds);
+      console.log("✅ Hashed password stored:", this.password);
+    } else {
+      console.log("🔄 Password is already hashed. Skipping re-hash.");
+    }
   }
   next();
 });
+
+// userSchema.pre('save', async function (next) {
+//   if (this.isModified('password')) {  // ✅ Ensures password is only hashed when modified
+//     console.log("🔒 Hashing new password before saving...");
+//     const saltRounds = 10;
+//     this.password = await bcrypt.hash(this.password, saltRounds);
+//     console.log("✅ Hashed password stored:", this.password);
+//   }
+//   next();
+// });
 
 // ✅ Custom method to compare passwords
 userSchema.methods.isCorrectPassword = async function (password: string) {
