@@ -1,9 +1,8 @@
-// src/App.tsx
 import './App.css';
-import { ApolloProvider } from '@apollo/client';  // Import ApolloProvider
+import { ApolloProvider } from '@apollo/client';  
 import { Outlet } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import client from './ApolloClient';  // Import the Apollo Client
+import client from './ApolloClient';  
 
 function App() {
   return (

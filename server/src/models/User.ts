@@ -54,16 +54,6 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// userSchema.pre('save', async function (next) {
-//   if (this.isModified('password')) {  // ✅ Ensures password is only hashed when modified
-//     console.log("🔒 Hashing new password before saving...");
-//     const saltRounds = 10;
-//     this.password = await bcrypt.hash(this.password, saltRounds);
-//     console.log("✅ Hashed password stored:", this.password);
-//   }
-//   next();
-// });
-
 // ✅ Custom method to compare passwords
 userSchema.methods.isCorrectPassword = async function (password: string) {
   console.log("🔍 Comparing entered password:", password);
