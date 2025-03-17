@@ -29,7 +29,6 @@ export const authenticateToken = ({ req }: any) => {
   }
 };
 
-
 export const signToken = (username: string, email: string, _id: unknown) => {
   const payload = { username, email, _id };
 

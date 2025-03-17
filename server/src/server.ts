@@ -23,7 +23,7 @@ const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  introspection: true, // 🚩 Allows schema inspection
+  introspection: true, //  Allows schema inspection
 });
 
 const app = express();
@@ -48,7 +48,7 @@ const startApolloServer = async () => {
       })
     );
 
-    // 🚩 Manually Add GraphQL Playground
+    //  Manually Add GraphQL Playground
     app.get('/graphql', (_req: Request, res: Response) => {
       res.send(renderPlaygroundPage({ endpoint: '/graphql' }));
     });
