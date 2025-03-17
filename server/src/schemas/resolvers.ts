@@ -128,13 +128,6 @@ const resolvers = {
       context.user = user;
       return { token, user };
     },
-
-
-
-
-
-
-
     
 // Updated saveBook mutation to check if a book is already saved for the current user
 saveBook: async (_parent: any, { book }: SaveBookArgs, context: any) => {
@@ -162,42 +155,6 @@ saveBook: async (_parent: any, { book }: SaveBookArgs, context: any) => {
   }
   throw new Error('User not found.');
 },
-
-
-
-
-
-
-
-
-    // saveBook to accept and store full book details
-    // saveBook: async (_parent: any, { book }: SaveBookArgs, context: any) => {
-    //   if (!context.user) {
-    //     throw new AuthenticationError('You need to be logged in to save a book.');
-    //   }
-
-    //   return User.findByIdAndUpdate(
-    //     context.user._id,
-    //     { $addToSet: { savedBooks: book } },  // storing full book object
-    //     { new: true, runValidators: true }
-    //   ).populate('savedBooks');
-    // },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     removeBook: async (_parent: any, { bookId }: { bookId: string }, context: any) => {
       if (!context.user) {
